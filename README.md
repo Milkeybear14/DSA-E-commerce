@@ -1,4 +1,4 @@
-# DSA E-COMMERCE PROJECT :octocat:
+# :octocat: DSA E-COMMERCE PROJECT 
 
 ### OVERVIEW
 ```
