@@ -18,4 +18,4 @@ the main.cpp so write main in the terminal and hit enter.
 The other way is there is the already compiled executable files called 
 main.exe so by you can start it by double click it.
 
->ATTENTITON : To run the application don’t delete the main.db in the root directory or the main.exe and main.db must’ve to be in the same directory in the same directory.
+> **ATTENTITON** : To run the application don’t delete the main.db in the root directory or the main.exe and main.db must’ve to be in the same directory in the same directory.
