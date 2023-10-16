@@ -1,14 +1,20 @@
 # DSA E-COMMERCE PROJECT
 
 ### OVERVIEW
+```
 For this project we used C++ as a main programming language and 
 SQLITE3 as a main database.
+```
 ### DESIGN CHOICES
+```
 We make this project to work on compiler or compiler application. To
 make it work in time.
+```
 ### DATA STRUCTURES USED
+```
 We used STACK data structure to save the products to the database
 and QUEUE data structure to save the ordering details to the database.
+```
 ### HOW TO RUN 
 ```
 To run our project in your pc you we provided 2 ways if you want to see 
