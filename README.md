@@ -1,5 +1,5 @@
 # DSA E-COMMERCE PROJECT
-<br>
+
 ### OVERVIEW
 For this project we used C++ as a main programming language and 
 SQLITE3 as a main database.
