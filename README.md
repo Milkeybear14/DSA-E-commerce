@@ -1,5 +1,5 @@
-# DSA E-COMMERCE PROJECT
-@octocat :octocat:
+# DSA E-COMMERCE PROJECT :octocat:
+
 ### OVERVIEW
 ```
 For this project we used C++ as a main programming language and 
