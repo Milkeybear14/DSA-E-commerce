@@ -1,6 +1,6 @@
 # :octocat: DSA E-COMMERCE PROJECT 
 ### PREVIEW
-![image](https://i.ibb.co/LC2tVcV/Capture.png)
+![image](https://raw.githubusercontent.com/Milkeybear14/DSA-E-commerce/main/docs/Preview.PNG)
 
 ### OVERVIEW
 ```
