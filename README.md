@@ -1,6 +1,6 @@
 # :octocat: DSA E-COMMERCE PROJECT 
 ### PREVIEW
-![image]([https://app.gemoo.com/share/image-annotation/573016878299942912?codeId=Ml27VoGjm2GJO&origin=imageurlgenerator])
+![image](https://app.gemoo.com/share/image-annotation/573016878299942912?codeId=Ml27VoGjm2GJO&origin=imageurlgenerator)
 
 ### OVERVIEW
 ```
