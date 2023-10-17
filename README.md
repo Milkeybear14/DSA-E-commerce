@@ -1,4 +1,6 @@
 # :octocat: DSA E-COMMERCE PROJECT 
+### PREVIEW
+![image](https://placeimg.com/640/480/any)
 
 ### OVERVIEW
 ```
