@@ -1,14 +1,14 @@
-#include <iostream> // for basic input output 
-#include <stdlib.h> // to get an 'exit()' function.
-#include <ctime> // to get the current time o save to ordering detail.
-#include <cstdlib> // for changing the string to const* char data type.
-#include <stdexcept> // for handling error messages 'cerr'.
-#include <queue> // to handle queue data structure easily.
-#include <stack> // to handle stack data stracture easily.
-#include <string> // to handle string.
-#include <sqlite3.h> // to handle sqlite database opening executing and so on.
+#include <iostream>
+#include <stdlib.h>
+#include <ctime>
+#include <cstdlib>
+#include <stdexcept>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sqlite3.h>
 
-using namespace std; // for standard template library
+using namespace std;
 
 string userEmail;
 
@@ -52,14 +52,29 @@ void aboutUs()
     cout << " #             ABOUT US                  #" << endl;
     cout << " -----------------------------------------" << endl;
 
-    cout <<"|-----------------------------------------|"<<endl;
-    cout <<"| "<<"Name"<<"                   |      "<<"Id No"<<"     |"<<endl;
-    cout <<"|-----------------------------------------|"<<endl;
-    cout <<"| "<<"Natnael Tesfaye"<<"        |      "<<"URC112/14"<<" |"<<endl;
-    cout <<"| "<<"Yared Kiros"<<"            |      "<<"URC119/14"<<" |"<<endl;
-    cout <<"| "<<"Mickyas Tesfaye"<<"        |      "<<"URC109/14"<<" |"<<endl;
-    cout <<"|-----------------------------------------|"<<endl;
-
+    cout << "|-----------------------------------------|" << endl;
+    cout << "| "
+         << "Name"
+         << "                   |      "
+         << "Id No"
+         << "     |" << endl;
+    cout << "|-----------------------------------------|" << endl;
+    cout << "| "
+         << "Natnael Tesfaye"
+         << "        |      "
+         << "URC10 /14"
+         << " |" << endl;
+    cout << "| "
+         << "Yared Kiros"
+         << "            |      "
+         << "URC10 /14"
+         << " |" << endl;
+    cout << "| "
+         << "Mickyas Tesfaye"
+         << "        |      "
+         << "URC109/14"
+         << " |" << endl;
+    cout << "|-----------------------------------------|" << endl;
 }
 
 void userLogin()
@@ -68,7 +83,7 @@ void userLogin()
     int rc = sqlite3_open("main.db", &db);
     if (rc)
     {
-        cerr << "Error opening SQLite database: " << sqlite3_errmsg(db) << endl;
+        std::cerr << "Error opening SQLite database: " << sqlite3_errmsg(db) << std::endl;
     }
     string email;
     string password;
@@ -81,21 +96,21 @@ void userLogin()
     cin >> password;
 
     // Prepare SQL statement to check user credentials
-    string sql = "SELECT * FROM Users WHERE email='" + email + "' AND password='" + password + "'";
+    std::string sql = "SELECT * FROM Users WHERE email='" + email + "' AND password='" + password + "'";
     char *errMsg = nullptr;
 
     // Execute the query
     rc = sqlite3_exec(db, sql.c_str(), callback, nullptr, &errMsg);
     if (rc != SQLITE_OK)
     {
-        cerr << "Error executing SQLite query: " << errMsg << endl;
+        std::cerr << "Error executing SQLite query: " << errMsg << std::endl;
         sqlite3_free(errMsg);
         sqlite3_close(db);
     }
     // Check if login was successful
     if (userEmail.empty())
     {
-        cout << "Invalid email or password." << endl;
+        std::cout << "Invalid email or password." << std::endl;
         sqlite3_close(db);
     }
 
@@ -171,7 +186,10 @@ void printProducts()
          << " | "
          << "Price"
          << " | "
-         << "Description" << endl;
+         << "Description"
+         << " | "
+         << "User "
+         << endl;
     cout << "--------------------------------------" << endl;
     sql = "SELECT * FROM product_info;";
     rc = sqlite3_exec(
@@ -203,9 +221,12 @@ void printOrders()
     cout << "--------------------------------------" << endl;
     cout << "Id"
          << " | "
-         << "Product Id"
+         << "Name"
          << " | "
-         << "Date" << endl;
+         << "Date"
+         << " | "
+         << "User"
+         << endl;
     cout << "--------------------------------------" << endl;
     const char *sql = "SELECT * FROM order_details;";
     rc = sqlite3_exec(
@@ -231,7 +252,7 @@ void add_product()
 {
     if (userEmail.empty())
     {
-        cout << "Register / Login First To Order A Product" << endl;
+        std::cout << "Register / Login First To Order A Product" << std::endl;
         int usnum;
         cout << "1. Register" << endl;
         cout << "2. Login" << endl;
@@ -271,7 +292,7 @@ void add_product()
     {
         cout << "Error opening database: " << sqlite3_errmsg(db) << endl;
     }
-    sql = "INSERT INTO Product_Info (product_name, product_price, product_description) VALUES (?, ?, ?)";
+    sql = "INSERT INTO Product_Info (product_name, product_price, product_description, username) VALUES (?, ?, ?, ?)";
     sqlite3_stmt *stmt;
     rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
     if (rc != SQLITE_OK)
@@ -284,6 +305,7 @@ void add_product()
     string price = to_string(product_price);
     sqlite3_bind_text(stmt, 2, price.c_str(), -1, SQLITE_STATIC);
     sqlite3_bind_text(stmt, 3, product_description.c_str(), -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 4, userEmail.c_str(), -1, SQLITE_STATIC);
     if (rc != SQLITE_OK)
     {
         cout << "Error binding parameter: " << sqlite3_errmsg(db) << endl;
@@ -297,6 +319,10 @@ void add_product()
         sqlite3_finalize(stmt);
         sqlite3_close(db);
     }
+    else
+    {
+        cout << "Product Added Successfully" << endl;
+    }
     sqlite3_finalize(stmt);
 }
 
@@ -305,7 +331,7 @@ void order_product()
 
     if (userEmail.empty())
     {
-        cout << "Register / Login First To Order A Product" << endl;
+        std::cout << "Register / Login First To Order A Product" << std::endl;
         int usnum;
         cout << "1. Register" << endl;
         cout << "2. Login" << endl;
@@ -331,79 +357,48 @@ void order_product()
     cout << "--------------------------------------" << endl;
     cout << "            ORDER PRODUCT             " << endl;
     cout << "--------------------------------------" << endl;
-    char productName[100]; // Declare as char array
+    string product_id; // Declare as string
     cout << "Enter product Name The Same As Shown Above: ";
-    cin >> productName;
+    cin >> product_id;
     cout << "--------------------------------------" << endl;
     sqlite3 *db;
     char *errMsg = nullptr;
-    int rc;
-
-    rc = sqlite3_open("main.db", &db);
+    int rc = sqlite3_open("main.db", &db);
     if (rc != SQLITE_OK)
     {
         cerr << "Cannot open database: " << sqlite3_errmsg(db) << endl;
     }
 
-    string sql = "SELECT id FROM product_info WHERE product_name = ?";
+    const char *sql = "INSERT INTO order_details (product_name, order_date, username) VALUES ((SELECT product_name FROM Product_Info WHERE id = ?), datetime('now'), ?);";
     sqlite3_stmt *stmt;
-
-    rc = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr);
-
+    rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
     if (rc != SQLITE_OK)
     {
-        cerr << "SQL error: " << sqlite3_errmsg(db) << endl;
+        cout << "Error preparing statement: " << sqlite3_errmsg(db) << endl;
+        sqlite3_close(db);
+        exit(0);
     }
-
-    rc = sqlite3_bind_text(stmt, 1, productName, -1, SQLITE_STATIC);
-
+    sqlite3_bind_text(stmt, 1, product_id.c_str(), -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 2, userEmail.c_str(), -1, SQLITE_STATIC);
     if (rc != SQLITE_OK)
     {
-        cerr << "SQL error: " << sqlite3_errmsg(db) << endl;
+        cout << "Error binding parameter: " << sqlite3_errmsg(db) << endl;
+        sqlite3_finalize(stmt);
+        sqlite3_close(db);
     }
-
     rc = sqlite3_step(stmt);
-
-    if (rc == SQLITE_ROW)
+    if (rc != SQLITE_DONE)
     {
-        int productId = sqlite3_column_int(stmt, 0);
-        string insertSql = "INSERT INTO order_details (product_id, created_date) VALUES (?, datetime('now'));";
-        sqlite3_stmt *insertStmt;
-
-        rc = sqlite3_prepare_v2(db, insertSql.c_str(), -1, &insertStmt, nullptr);
-
-        if (rc != SQLITE_OK)
-        {
-            cerr << "SQL error: " << sqlite3_errmsg(db) << endl;
-        }
-
-        rc = sqlite3_bind_int(insertStmt, 1, productId);
-
-        if (rc != SQLITE_OK)
-        {
-            cerr << "SQL error: " << sqlite3_errmsg(db) << endl;
-        }
-
-        rc = sqlite3_step(insertStmt);
-
-        if (rc != SQLITE_DONE)
-        {
-            cerr << "SQL error: " << sqlite3_errmsg(db) << endl;
-        }
-        else
-        {
-            cout << "Data added successfully" << endl;
-        }
-
-        sqlite3_finalize(insertStmt);
+        cout << "Error executing statement: " << sqlite3_errmsg(db) << endl;
+        sqlite3_finalize(stmt);
+        sqlite3_close(db);
     }
     else
     {
-        cerr << "Product not found" << endl;
+        cout << "Ordered Product Successfully" << endl;
     }
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
 }
 
 void prompt()
@@ -420,7 +415,7 @@ void prompt()
     cout << "5: Register." << endl;
     cout << "6: Login." << endl;
     cout << "7: Logout." << endl;
-    cout << "8: About."<<endl;
+    cout << "8: About." << endl;
     cout << "9: Quit." << endl;
     cout << "--------------------------------------" << endl;
     cout << "Enter A Number Respectively To Operate : ";
