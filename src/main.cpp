@@ -358,7 +358,7 @@ void order_product()
     cout << "            ORDER PRODUCT             " << endl;
     cout << "--------------------------------------" << endl;
     string product_id; // Declare as string
-    cout << "Enter product Name The Same As Shown Above: ";
+    cout << "Enter product ID The Same As Shown Above: ";
     cin >> product_id;
     cout << "--------------------------------------" << endl;
     sqlite3 *db;
