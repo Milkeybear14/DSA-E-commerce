@@ -62,12 +62,12 @@ void aboutUs()
     cout << "| "
          << "Natnael Tesfaye"
          << "        |      "
-         << "URC10 /14"
+         << "URC112/14"
          << " |" << endl;
     cout << "| "
          << "Yared Kiros"
          << "            |      "
-         << "URC10 /14"
+         << "URC119/14"
          << " |" << endl;
     cout << "| "
          << "Mickyas Tesfaye"
