@@ -77,6 +77,58 @@ void aboutUs()
     cout << "|-----------------------------------------|" << endl;
 }
 
+void dequeueOrder(){
+    sqlite3 *db;
+    int rc = sqlite3_open("main.db", &db);
+    if (rc)
+    {
+        std::cerr << "Error opening SQLite database: " << sqlite3_errmsg(db) << std::endl;
+    }
+
+    // Prepare SQL statement to check user credentials
+    std::string sql = "DELETE FROM order_details WHERE ROWID IN (SELECT ROWID FROM order_details ORDER BY ROWID ASC LIMIT 1);";
+    char *errMsg = nullptr;
+
+    // Execute the query
+    rc = sqlite3_exec(db, sql.c_str(), callback, nullptr, &errMsg);
+    if (rc != SQLITE_OK)
+    {
+        std::cerr << "Error executing SQLite query: " << errMsg << std::endl;
+        sqlite3_free(errMsg);
+        sqlite3_close(db);
+    }
+
+    // Close the database
+    cout<<"The First Order has been Finished and Dequeued you can check it!!!"<<endl;
+    sqlite3_close(db);
+}
+
+void popProduct(){
+    sqlite3 *db;
+    int rc = sqlite3_open("main.db", &db);
+    if (rc)
+    {
+        std::cerr << "Error opening SQLite database: " << sqlite3_errmsg(db) << std::endl;
+    }
+
+    // Prepare SQL statement to check user credentials
+    std::string sql = "DELETE FROM product_info WHERE ROWID IN (SELECT ROWID FROM product_info ORDER BY ROWID DESC LIMIT 1);";
+    char *errMsg = nullptr;
+
+    // Execute the query
+    rc = sqlite3_exec(db, sql.c_str(), callback, nullptr, &errMsg);
+    if (rc != SQLITE_OK)
+    {
+        std::cerr << "Error executing SQLite query: " << errMsg << std::endl;
+        sqlite3_free(errMsg);
+        sqlite3_close(db);
+    }
+
+    // Close the database
+    cout<<"The last Product has been Poped out you can check it!!!"<<endl;
+    sqlite3_close(db);
+}
+
 void userLogin()
 {
     sqlite3 *db;
@@ -412,11 +464,13 @@ void prompt()
     cout << "2: Order A Product." << endl;
     cout << "3: Show Order Queue." << endl;
     cout << "4: Show Products Stack." << endl;
-    cout << "5: Register." << endl;
-    cout << "6: Login." << endl;
-    cout << "7: Logout." << endl;
-    cout << "8: About." << endl;
-    cout << "9: Quit." << endl;
+    cout << "5: Pop Product." << endl;
+    cout << "6: Dequeue Order." << endl;
+    cout << "7: Register." << endl;
+    cout << "8: Login." << endl;
+    cout << "9: Logout." << endl;
+    cout << "10: About." << endl;
+    cout << "11: Quit." << endl;
     cout << "--------------------------------------" << endl;
     cout << "Enter A Number Respectively To Operate : ";
     cin >> user_input;
@@ -437,12 +491,18 @@ void prompt()
         printProducts();
         prompt();
     case 5:
-        userRegister();
+        popProduct();
         prompt();
     case 6:
-        userLogin();
+        dequeueOrder();
         prompt();
     case 7:
+        userRegister();
+        prompt();
+    case 8:
+        userLogin();
+        prompt();
+    case 9:
         if (userEmail.empty())
         {
             cout << "#########################\n Login/Register First To logout \n#########################" << endl;
@@ -453,11 +513,11 @@ void prompt()
             userEmail.clear();
             prompt();
         }
-    case 8:
+    case 10:
         aboutUs();
         prompt();
-    case 9:
-        exit(0);
+    case 11:
+        exit(0);    
     default:
         cout << endl
              << "Invalid Input Try Again And Choose The Numbers Respectively." << endl;
