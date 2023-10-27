@@ -243,7 +243,7 @@ void printProducts()
          << "User "
          << endl;
     cout << "--------------------------------------" << endl;
-    sql = "SELECT * FROM product_info;";
+    sql = "SELECT * FROM product_info ORDER BY id DESC;";
     rc = sqlite3_exec(
         db, sql, [](void *data, int argc, char **argv, char ** /*colNames*/) -> int
         {
